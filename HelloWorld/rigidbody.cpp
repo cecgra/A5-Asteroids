@@ -12,7 +12,7 @@ Asteroid::Asteroid()
 	position = { 0,0 };
 
 	scale = Play::RandomRollRange(0, 3);
-	rotationalSpeed = Play::RandomRollRange(0, 10);
+	rotationalSpeed = Play::RandomRollRange(0, 5);
 
 }
 
@@ -33,7 +33,7 @@ void Asteroid::UpdateAsteroid(float elapsedTime)
 Ship::Ship()
 {
 	position = { DISPLAY_HEIGHT / 2, DISPLAY_WIDTH / 2 };
-	int playerDirection = North;
+	
 }
 
 void Ship::Draw()
@@ -44,38 +44,98 @@ void Ship::Draw()
 
 void Ship::HandleInput(float elapsedTime)
 {
-	//every direction
-	//if (Play::KeyDown(VK_UP) && Play::KeyDown(VK_RIGHT)&& Play::KeyDown(VK_DOWN)&&Play::KeyDown(VK_LEFT)) {
-	//	//set velocity to 0
-
-	//}
-	//three directions
 	
-	//two directions
-	if (Play::KeyDown(VK_UP) && Play::KeyDown(VK_RIGHT)) {
-		playerDirection = NorthEast;
+	int thrust = 10; //boost veriable
+	if (Play::KeyDown(VK_UP))//north
+	{		
+		velocity.y -= acceleration * elapsedTime;
+
+		if (Play::KeyDown(VK_SPACE))//boost up
+		{
+			velocity.y -= thrust;
+		}
 	}
 
-	//one direction
-	if (Play::KeyDown(VK_UP))
+	if (Play::KeyDown(VK_RIGHT))//east
 	{
-		playerDirection = North;
+		velocity.x += acceleration * elapsedTime;
+
+		if (Play::KeyDown(VK_SPACE))//boost right
+		{
+			velocity.x += thrust;
+		}
 	}
 
-
-
-	if (Play::KeyDown(VK_SPACE))//thrust
+	if (Play::KeyDown(VK_DOWN))//south
 	{
-		//thrust = thrust * elapsedTime;
+		velocity.y += acceleration * elapsedTime;
+
+		if (Play::KeyDown(VK_SPACE))//boost down
+		{
+			velocity.y += thrust;
+		}
+	}
+
+	if (Play::KeyDown(VK_LEFT))//west
+	{
+		velocity.x -= acceleration * elapsedTime;
+
+		if (Play::KeyDown(VK_SPACE))//boost left
+		{
+			velocity.x -= thrust;
+		}
 	}
 	
 }
 
-void Ship::HandleMovement(float elapsedTime)
+void Ship::ShipUpdate(float elapsedTime)
 {
-	if (playerDirection == North)
+	//caps speed
+	int speedCap = 120;
+	if (velocity.x > speedCap)
 	{
-		position = { position.x - 1, position.y };
+		velocity.x = speedCap;
+	}
 
+	if (velocity.y > speedCap)
+	{
+		velocity.y = speedCap;
+	}
+
+	//updating position of ship
+	
+	position.x += velocity.x * elapsedTime;
+	position.y += velocity.y * elapsedTime;
+
+	if (velocity.x < 0)
+	{
+		position.x -= velocity.x * elapsedTime;
+	}
+	
+
+	
+
+}
+
+void Ship::WallCollision()
+{
+	if (position.x < 0)//left edge
+	{
+		position.x = DISPLAY_WIDTH;
+	}
+
+	if (position.x > DISPLAY_WIDTH)//right edge
+	{
+		position.x = 0;
+	}
+
+	if (position.y < 0)//top edge
+	{
+		position.y = DISPLAY_HEIGHT;
+	}
+
+	if (position.y > DISPLAY_HEIGHT)//bottom edge
+	{
+		position.y = 0;
 	}
 }

@@ -25,7 +25,9 @@ bool MainGameUpdate(float elapsedTime)
 	asteroid.Draw();
 
 	ship.HandleInput(elapsedTime);
-	ship.HandleMovement(elapsedTime);
+	ship.ShipUpdate(elapsedTime);
+	ship.Draw();
+	ship.WallCollision();
 	
 
 
