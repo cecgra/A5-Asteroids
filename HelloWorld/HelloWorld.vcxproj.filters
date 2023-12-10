@@ -12,9 +12,15 @@
     <ClCompile Include="MainGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rigidbody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Play.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rigidbody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
