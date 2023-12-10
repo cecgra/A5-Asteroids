@@ -4,13 +4,13 @@
 #include "rigidbody.h"
 
 Asteroid asteroid;
+Ship ship;
 
 // The entry point for a PlayBuffer program
 void MainGameEntry(PLAY_IGNORE_COMMAND_LINE)
 {
 	Play::CreateManager(DISPLAY_WIDTH, DISPLAY_HEIGHT, DISPLAY_SCALE);
-
-
+	Play::CentreAllSpriteOrigins();
 
 }
 
@@ -18,12 +18,12 @@ void MainGameEntry(PLAY_IGNORE_COMMAND_LINE)
 bool MainGameUpdate(float elapsedTime)
 {
 	Play::ClearDrawingBuffer(Play::cGrey);
-	//Play::DrawDebugText( { DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 }, "test" );
 
 
 	asteroid.UpdateAsteroid(elapsedTime);
 	asteroid.Draw();
 
+	ship.Draw();
 
 
 	Play::PresentDrawingBuffer();

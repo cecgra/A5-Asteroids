@@ -4,12 +4,9 @@
 #include <string>
 using namespace std;
 
-
 const int DISPLAY_WIDTH = 640;
 const int DISPLAY_HEIGHT = 640;
 const int DISPLAY_SCALE = 1;
-
-
 
 class Rigidbody //base logic for asteroids and ship
 {
@@ -22,7 +19,6 @@ public:
 	char* id;
 
 	void Draw();
-	void Update(float elapsedTime);
 
 };
 
@@ -31,7 +27,7 @@ class Asteroid :private  Rigidbody
 public:
 	int scale;
 	int rotationalSpeed;
-
+	const char* idA = "asteroid";
 
 	Asteroid();
 	void Draw();
@@ -43,6 +39,11 @@ public:
 class Ship : private Rigidbody
 {
 public:
+	int thrust;
+	const char* idS = "ship";
+
 	Ship();
 	void Draw();
+	void UpdateShip(float elapsedTime);
+
 };
