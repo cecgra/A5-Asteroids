@@ -14,7 +14,7 @@ class Rigidbody //base logic for asteroids and ship
 public:
 	Point2D position;
 	Vector2D velocity;
-	const float acceleration=150.0f;
+	const float acceleration=200.0f;
 	float rotation;
 	int radius;//in radians
 	char* id;
@@ -47,5 +47,5 @@ public:
 	void Draw();
 	void HandleInput(float elapsedTime);
 	void ShipUpdate(float elapsedTime);
-	void WallCollision();
+	
 };

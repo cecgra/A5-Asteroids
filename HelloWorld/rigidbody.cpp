@@ -91,15 +91,21 @@ void Ship::HandleInput(float elapsedTime)
 void Ship::ShipUpdate(float elapsedTime)
 {
 	//caps speed
-	int speedCap = 120;
+	int speedCap = 500;
 	if (velocity.x > speedCap)
 	{
 		velocity.x = speedCap;
 	}
-
+	if (velocity.x < -speedCap) 
+	{
+		velocity.x = -speedCap;
+	}
 	if (velocity.y > speedCap)
 	{
 		velocity.y = speedCap;
+	}if (velocity.y < -speedCap)
+	{
+		velocity.y = -speedCap;
 	}
 
 	//updating position of ship
@@ -107,18 +113,6 @@ void Ship::ShipUpdate(float elapsedTime)
 	position.x += velocity.x * elapsedTime;
 	position.y += velocity.y * elapsedTime;
 
-	if (velocity.x < 0)
-	{
-		position.x -= velocity.x * elapsedTime;
-	}
-	
-
-	
-
-}
-
-void Ship::WallCollision()
-{
 	if (position.x < 0)//left edge
 	{
 		position.x = DISPLAY_WIDTH;

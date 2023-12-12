@@ -27,7 +27,7 @@ bool MainGameUpdate(float elapsedTime)
 	ship.HandleInput(elapsedTime);
 	ship.ShipUpdate(elapsedTime);
 	ship.Draw();
-	ship.WallCollision();
+	
 	
 
 
