@@ -12,24 +12,26 @@ void MainGameEntry(PLAY_IGNORE_COMMAND_LINE)
 	Play::CreateManager(DISPLAY_WIDTH, DISPLAY_HEIGHT, DISPLAY_SCALE);
 	Play::CentreAllSpriteOrigins();
 
+	asteroid.CreateAsteroids(15);
 	ship.Draw();
+	
 }
 
 // Called by PlayBuffer every frame (60 times a second!)
 bool MainGameUpdate(float elapsedTime)
 {
-	Play::ClearDrawingBuffer(Play::cGrey);
+	Play::ClearDrawingBuffer(Play::cBlack);
 
-
-	asteroid.UpdateAsteroid(elapsedTime);
-	asteroid.Draw();
+	for (auto& asteroid : Asteroid::asteroids)
+	{
+		asteroid.UpdateAsteroid(elapsedTime);
+		asteroid.Draw();
+	}
+	
 
 	ship.HandleInput(elapsedTime);
 	ship.ShipUpdate(elapsedTime);
 	ship.Draw();
-	
-	
-
 
 	Play::PresentDrawingBuffer();
 	return Play::KeyDown(VK_ESCAPE);

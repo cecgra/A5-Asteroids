@@ -1,4 +1,5 @@
 #include "rigidbody.h"
+using namespace std;
 
 void Rigidbody::Draw()
 {
@@ -8,12 +9,32 @@ void Rigidbody::Draw()
 
 Asteroid::Asteroid()
 {
-	velocity = { Play::RandomRollRange(5,50), Play::RandomRollRange(5,50) };
-	position = { 0,0 };
+	int velocityDirection = Play::RandomRollRange(0, 3);
+	if (velocityDirection==0) //x pos y pos
+	{
+		velocity = { Play::RandomRollRange(10,100), Play::RandomRollRange(10,100) };
+	}
+	else if(velocityDirection == 1)//x pos y neg
+	{
+		velocity = { Play::RandomRollRange(10,100), Play::RandomRollRange(-10,-100) };
+	}
+	else if(velocityDirection == 2)//x neg y pos
+	{
+		velocity = { Play::RandomRollRange(-10,-100), Play::RandomRollRange(10,100) };
 
-	scale = Play::RandomRollRange(0, 3);
-	rotationalSpeed = Play::RandomRollRange(0, 5);
+	}
+	else if(velocityDirection == 3)//x neg y neg
+	{ 
+		velocity = { Play::RandomRollRange(-10,-100), Play::RandomRollRange(-10,-100) };
+	
+	}
+	
+		
 
+
+	scale = Play::RandomRollRange(1, 3);
+	rotationalSpeed = Play::RandomRollRange(1, 500);
+	UpdateAsteroidPosition();
 }
 
 void Asteroid::Draw()
@@ -27,7 +48,48 @@ void Asteroid::UpdateAsteroid(float elapsedTime)
 	rotation += rotationalSpeed * elapsedTime;
 	position.x += velocity.x * elapsedTime;
 	position.y += velocity.y * elapsedTime;
+	radius = 20*scale;
+	//if asteroid has left the screen, respawn it at a new location
+	if (position.x<0-radius || position.x >DISPLAY_WIDTH+radius 
+	|| position.y<0-radius || position.y>DISPLAY_HEIGHT+radius)
+	{
+		UpdateAsteroidPosition();
+		
+	}
+}
 
+void Asteroid::UpdateAsteroidPosition() {
+	//spawn edge
+	int edge = Play::RandomRollRange(0, 3);
+	if (edge == 0)//top edge
+	{
+		position = { Play::RandomRollRange(0, DISPLAY_WIDTH), 0-radius };
+	}
+	else if (edge == 1)//right edge
+	{
+		position = { DISPLAY_WIDTH + radius, Play::RandomRollRange(0, DISPLAY_HEIGHT) };
+	}
+	else if (edge == 2)//bottom edge
+	{
+		position = { Play::RandomRollRange(0, DISPLAY_WIDTH), DISPLAY_HEIGHT+radius };
+	}
+	else if (edge == 3)//left edge
+	{
+		position = { 0 - radius, Play::RandomRollRange(0, DISPLAY_HEIGHT) };
+	}
+}
+
+std::vector<Asteroid> Asteroid::asteroids;
+
+void Asteroid::CreateAsteroids(int numAsteroids)
+{
+	asteroids.clear();
+	asteroids.reserve(numAsteroids);
+
+	for (int i = 0; i < numAsteroids; i++)
+	{
+		asteroids.emplace_back();
+	}
 }
 
 Ship::Ship()
